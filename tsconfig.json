@@ -1,0 +1,29 @@
+{
+  "exclude": [
+    "./node_modules",
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["./src/*"],
+      "#mocks/*": ["./test/__mocks__/*"],
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./jest.setup.js",
+      "./src/typings.d.ts"
+    ],
+  }
+}
