@@ -25,17 +25,6 @@ module.exports = (api) => {
       root: ['./js/src'],
       alias: {
         '@src': './dist/src',
-        '@CONSTANTS': './dist/src/CONSTANTS',
-        '@enums': './dist/src/enums',
-        '@lib': './dist/src/lib',
-        '@parsers': './dist/src/lib/parsers',
-        '@processors': './dist/src/lib/processors',
-        '@server': './dist/src/server',
-        '@browser': './dist/src/browser',
-        '@components': './dist/src/components',
-        '@store': './dist/src/browser/store',
-        '@views': './dist/src/views/',
-        '@templates': './dist/src/lib/templates',
       },
     }],
   ];

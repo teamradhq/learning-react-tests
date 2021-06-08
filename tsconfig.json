@@ -18,6 +18,8 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["./src/*"],
+      "#helpers/*": ["./test/__helpers__/*"],
+      "#helpers": ["./test/__helpers__/index.tsx"],
       "#mocks/*": ["./test/__mocks__/*"],
     },
     "typeRoots": [
