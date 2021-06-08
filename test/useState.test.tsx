@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import {
   render,
+  fireEvent,
 } from "@testing-library/react";
 
 function RenderComponent() {
   const [state, updateState] = useState({ counter: 0, name: 'name' });
-  const { counter } = state;
+  const { counter, name } = state;
+
+  const handleNameChange = (e) => {
+    const name = e.target.value || e.currentTarget.value;
+    updateState({ ...state, name, });
+  }
 
   return (
     <div data-testid="render">
@@ -19,11 +25,8 @@ function RenderComponent() {
         >Increment</button>
       </div>
       <div className="name--container">
-        <input data-testid="name-input" value={state.name} onChange={e => updateState({
-            ...state,
-            name: e.currentTarget.value,
-          })} />
-        <div data-testid="name-element"></div>
+        <input data-testid="name-input" value={name} onChange={handleNameChange} />
+        <div data-testid="name-element">{name}</div>
       </div>
     </div>
   );
@@ -57,5 +60,19 @@ describe('useState', () => {
 
     const counter = await getByTestId('counter');
     expect(counter.textContent).toContain(String(expected));
+  });
+
+  it('should set name on change', async () => {
+    const input = await getByTestId('name-input');
+
+    expect(input).toHaveValue('name');
+
+    fireEvent.change(input, {
+      target: { value: 'new name' },
+      currentTarget: { value: 'new name' },
+    });
+
+    expect(await getByTestId('name-input')).toHaveValue('new name')
+    expect(await getByTestId('name-element')).toHaveTextContent('new name')
   });
 });
