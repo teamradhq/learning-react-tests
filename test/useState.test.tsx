@@ -4,13 +4,17 @@ import {
 } from "@testing-library/react";
 
 function RenderComponent() {
-  const [counter, updateCounter] = useState(0);
+  const [state, updateCounter] = useState({ counter: 0 });
+  const { counter } = state;
 
   return (
     <div data-testid="render">
       <div data-testid="counter">{counter}</div>
       <button data-testid="increment"
-        onClick={() => updateCounter(counter + 1)}
+        onClick={() => updateCounter({
+          ...state,
+          counter: state.counter + 1,
+        })}
       >Increment</button>
     </div>
   );
@@ -21,15 +25,19 @@ function renderComponent() {
 }
 
 describe('useState', () => {
-  it('should update state on click', async () => {
-    const { getByTestId } = renderComponent();
-    const component = await getByTestId('render');
-    const button = await getByTestId('increment');
+  let getByTestId;
+  beforeEach(() => {
+    getByTestId = renderComponent().getByTestId;
+  });
 
-    const expected = 5;
+  it('should update state on click', async () => {
+    const button = await getByTestId('increment');
+    const expected = 3;
+
     for (let i = 0; i < expected; i++) {
       button.click();
     }
+
     const counter = await getByTestId('counter');
     expect(counter.textContent).toContain(String(expected));
   });
