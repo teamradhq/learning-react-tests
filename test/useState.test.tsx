@@ -4,13 +4,21 @@ import {
   fireEvent,
 } from "@testing-library/react";
 
+const initialState = { counter: 0, name: 'name' };
+
 function RenderComponent() {
-  const [state, updateState] = useState({ counter: 0, name: 'name' });
+  const [state, updateState] = useState(initialState);
   const { counter, name } = state;
 
   const handleNameChange = (e) => {
-    const name = e.target.value || e.currentTarget.value;
-    updateState({ ...state, name, });
+    const value = e.target.value || e.currentTarget.value;
+
+    if(value.match(/\d/)) {
+      updateState({...state, name: initialState.name });
+      return;
+    }
+
+    updateState({ ...state, name: value.trim().replace(/\s{2,}/g, ' '), });
   }
 
   return (
@@ -62,17 +70,23 @@ describe('useState', () => {
     expect(counter.textContent).toContain(String(expected));
   });
 
-  it('should set name on change', async () => {
+  it.each([
+    ['new name', 'new name'],
+    ['new name', '   new name   '],
+    ['new name', '   new    name   '],
+    ['name', 'test123'],
+    ['name', '123'],
+    ['name', '123test'],
+    ['name', 'te123st'],
+  ])('should set to "%s" if input value is "%s"', async (expected, value) => {
     const input = await getByTestId('name-input');
 
-    expect(input).toHaveValue('name');
-
     fireEvent.change(input, {
-      target: { value: 'new name' },
-      currentTarget: { value: 'new name' },
+      target: { value },
+      currentTarget: { value },
     });
 
-    expect(await getByTestId('name-input')).toHaveValue('new name')
-    expect(await getByTestId('name-element')).toHaveTextContent('new name')
+    expect(await getByTestId('name-input')).toHaveValue(expected)
+    expect(await getByTestId('name-element')).toHaveTextContent(expected)
   });
 });
