@@ -3,10 +3,16 @@ import {renderComponent} from '#helpers/renderComponent';
 
 import {
   StatusContext,
+  StatusContextProps,
   UseContextComponent,
 } from '@src/UseContextComponent';
 
-function RenderContextProvider({ context }) {
+
+interface RenderProps {
+  context: StatusContextProps;
+}
+
+function RenderContextProvider({ context }: RenderProps) {
   return (
     <StatusContext.Provider value={context}>
       <UseContextComponent />

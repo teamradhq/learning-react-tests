@@ -15,7 +15,7 @@ function renderComponent() {
 
 describe('<RenderComponent>', () => {
   it('should render a div', async () => {
-    expect.assertions(2);
+    expect.assertions(1);
 
     const { getByTestId } = renderComponent();
 
