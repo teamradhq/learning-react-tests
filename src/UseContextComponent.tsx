@@ -3,11 +3,11 @@ import React, { createContext, useContext } from 'react';
 export const statusList = {
   ok: { name: 'Ok', message: 'all good' },
   error: { name: 'Error', message: 'whoops' },
-}
+};
 
 export const StatusContext = createContext(statusList.ok);
 
-export function UseContextComponent() {
+export function UseContextComponent(): JSX.Element {
   const status = useContext(StatusContext);
 
   return (

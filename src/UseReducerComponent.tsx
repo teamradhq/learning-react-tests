@@ -23,17 +23,17 @@ function reducer(oldState, action) {
   };
 
   if (state.counter === 0) {
-    state.message = 'start'
+    state.message = 'start';
   } else if (state.counter === 1) {
-    state.message = 'nice'
+    state.message = 'nice';
   } else if (state.counter === 3) {
-    state.message = 'rad'
+    state.message = 'rad';
   }
 
   return state;
 }
 
-export function UseReducerComponent() {
+export function UseReducerComponent(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
   const increment = () => dispatch({ type: 'increment' });
   const reset = () => dispatch({ type: 'reset' });

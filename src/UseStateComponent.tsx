@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const initialState = { counter: 0, name: 'name' };
 
-export function UseStateComponent() {
+export function UseStateComponent(): JSX.Element {
   const [state, updateState] = useState(initialState);
   const { counter, name } = state;
 
@@ -15,7 +15,7 @@ export function UseStateComponent() {
     }
 
     updateState({ ...state, name: value.trim().replace(/\s{2,}/g, ' '), });
-  }
+  };
 
   return (
     <div data-testid="render">
