@@ -18,7 +18,7 @@ export const Context = createContext<ContextProps>({
 } as ContextProps);
 
 /**
- * A component that uses that context.
+ * A component that consumes Context.
  *
  * @return {JSX.Element}
  */
@@ -35,7 +35,5 @@ export function UseContextComponent(): JSX.Element {
 /**
  * A component whose children can use provided
  * value for context.
- *
- * @return {React.Provider<ContextProps>}
  */
 export const ContextProvider = Context.Provider;

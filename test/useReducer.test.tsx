@@ -1,3 +1,4 @@
+/** @module useReducerTest */
 import { fireEvent } from "@testing-library/react";
 import { renderComponent } from '#helpers/renderComponent';
 
@@ -7,30 +8,37 @@ const render = renderComponent(UseReducerComponent);
 
 describe('useReducer', () => {
   let getByTestId;
-
   beforeEach(() => {
     getByTestId = render().getByTestId;
   });
 
-  it.each([
+  /**
+   * Expected text after after number of clicks.
+   */
+  const cases: [string, number][] = [
     ['start', 0],
     ['nice', 1],
     ['nice', 2],
     ['rad', 3],
     ['rad', 4],
-  ])('message should be "%s" after %s increments', async (text, n) => {
-    expect.assertions(2);
+  ];
 
-    const increment = await getByTestId('increment');
-    for (let i = 0; i < n; i++) {
-      fireEvent.click(increment);
+  it.each(cases)(
+    'should containt "%s" after %s clicks',
+    async (text, clickCount) => {
+      expect.assertions(2);
+
+      const increment = await getByTestId('increment');
+      for (let i = 0; i < clickCount; i++) {
+        fireEvent.click(increment);
+      }
+
+      const message = await getByTestId('message');
+      const counter = await getByTestId('counter');
+      expect(counter).toContainHTML(String(clickCount));
+      expect(message).toContainHTML(text);
     }
-
-    const message = await getByTestId('message');
-    const counter = await getByTestId('counter');
-    expect(counter).toContainHTML(String(n));
-    expect(message).toContainHTML(text);
-  });
+  );
 
   it('should initialise values on reset', async () => {
     expect.assertions(2);

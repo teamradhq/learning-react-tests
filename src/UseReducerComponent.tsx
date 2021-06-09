@@ -1,16 +1,82 @@
+/**
+ * Demonstrates useReducer component hook.
+ * @module UseReducerComponent
+ * @see module:useReducerTest
+ */
 import React, { useReducer } from 'react';
 
-const initialState = {
+interface UseReducerState {
+  counter: number;
+  message: string;
+}
+
+/**
+ * Reducer can perform reset, increment
+ * and message actions.
+ *
+ * @see {@link reducer}
+ * @see {@link UseContextComponent}
+ *
+ *  Actions:
+ *
+ *  @example
+ *    { type: 'message', payload: 'new' }
+ *    // Updates {message} with {payload}.
+ *  @example
+ *    { type: 'increment' }
+ *    // Increments {counter} and updates {message}.
+ *  @example
+ *    {type: 'reset'}
+ *    // Sets {initialState}.
+ */
+export type ReducerAction =
+| { type: 'message', payload: string }
+| { type: 'reset' }
+| { type: 'increment' }
+
+const initialState: UseReducerState = {
   counter: 0,
   message: 'start',
 };
 
-function reducer(oldState, action) {
+/**
+ * Reducer performs {action} on {oldState}
+ * and returns new {state}.
+ *
+ *
+ * @param {UseReducertState} oldState State before action was dispatched.
+ * @param {ReducerAction}    action   Dispatch action.
+ *
+ * @example
+ *  const [state, dispatch] = useReducer(
+ *    reducer,
+ *    initialState
+ *  );
+ *
+ *  dispatch({ type: 'increment' });
+ *  // {  counter: 1, message: 'nice' }
+ *
+ *  dispatch({ type: 'reset', });
+ *  // {  counter: 0, message: 'start' };
+ *
+ *  dispatch({ type: 'message',  payload: 'new' });
+ *  // {  counter: 0, message: 'new' };
+ *
+ *
+ * @see {@link UseReducerComponent}
+ * @see {@link ReducerAction}
+ *
+ * @returns {UseReducerState} New state.
+ */
+function reducer(
+  oldState: UseReducerState,
+  action: ReducerAction,
+): UseReducerState {
   if (action.type === 'reset') {
     return { ...initialState };
   }
 
-  if (action.type === 'message') {
+  if (action.type === 'message' && action.payload) {
     return {
       ...oldState,
       message: action.payload,
@@ -33,6 +99,15 @@ function reducer(oldState, action) {
   return state;
 }
 
+/**
+ * Component can dispatch reset, message, and
+ * increment actions.
+ *
+ * @see reducer
+ * @see ReducerAction
+ *
+ * @returns {JSX.Element} UseReducerComponent
+ */
 export function UseReducerComponent(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
   const increment = () => dispatch({ type: 'increment' });
