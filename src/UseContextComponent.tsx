@@ -12,7 +12,7 @@ export function UseContextComponent() {
 
   return (
     <div data-testid="render">
-      {status.name} - {status.message}
+      {status?.name} - {status?.message}
     </div>
   );
 }

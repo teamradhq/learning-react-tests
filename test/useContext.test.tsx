@@ -1,38 +1,37 @@
-import React, { createContext, useContext } from 'react';
-import { render } from "@testing-library/react";
+import React from 'react';
+import {renderComponent} from '#helpers/renderComponent';
 
-const statusList = {
-  ok: { name: 'Ok', message: 'all good' },
-  error: { name: 'Error', message: 'whoops' },
-}
+import {
+  StatusContext,
+  UseContextComponent,
+} from '@src/UseContextComponent';
 
-const StatusContext = createContext(statusList.ok);
-
-function RenderComponent() {
-  const status = useContext(StatusContext);
-
+function RenderContextProvider({ context }) {
   return (
-    <div data-testid="render">
-      {status.name} - {status.message}
-    </div>
-  );
-}
-
-function renderComponent(status) {
-  return render(
-    <StatusContext.Provider value={statusList[status]}>
-      <RenderComponent />
+    <StatusContext.Provider value={context}>
+      <UseContextComponent />
     </StatusContext.Provider>
   );
 }
 
+const render = renderComponent(RenderContextProvider);
+
 describe('useReducer', () => {
   it.each([
-    ['ok', 'Ok - all good'],
-    ['error', 'Error - whoops'],
-  ])('should render with context', async (status, message) => {
-    const { getByTestId } = renderComponent(status);
+    ['ok', { name: 'Ok', message: 'good' }, 'Ok - good'],
+    ['error', { name: 'Error', message: 'bad' }, 'Error - bad'],
+    ['no', { name: 'No', message: 'nothing' }, 'No - nothing'],
+  ])('should render status "%s" with message "%s"', async (status, context, message) => {
+    expect.assertions(1);
+    const { getByTestId } = render({ context });
 
     expect(await getByTestId('render')).toHaveTextContent(message);
+  });
+
+  it('should render undefined context', async () => {
+    expect.assertions(1);
+    const { getByTestId } = render({});
+
+    expect(await getByTestId('render')).toHaveTextContent('-');
   });
 });
