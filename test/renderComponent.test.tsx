@@ -15,7 +15,10 @@ function renderComponent() {
 
 describe('<RenderComponent>', () => {
   it('should render a div', async () => {
+    expect.assertions(2);
+
     const { getByTestId } = renderComponent();
+
     const component = await getByTestId('render');
     expect(component).toContainHTML('<div data-testid="render">Render!</div>');
   });

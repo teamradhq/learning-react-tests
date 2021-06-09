@@ -12,6 +12,7 @@ describe('useState', () => {
   });
 
   it('should have default values', async () => {
+    expect.assertions(2);
     const input = await getByTestId('name-input');
     const counter = await getByTestId('counter');
 
@@ -20,6 +21,7 @@ describe('useState', () => {
   });
 
   it('should update state on click', async () => {
+    expect.assertions(1);
     const button = await getByTestId('increment');
     const expected = 3;
 
@@ -40,6 +42,7 @@ describe('useState', () => {
     ['name', '123test'],
     ['name', 'te123st'],
   ])('should set to "%s" if input value is "%s"', async (expected, value) => {
+    expect.assertions(2);
     const input = await getByTestId('name-input');
 
     fireEvent.change(input, {
@@ -47,7 +50,7 @@ describe('useState', () => {
       currentTarget: { value },
     });
 
-    expect(await getByTestId('name-input')).toHaveValue(expected)
-    expect(await getByTestId('name-element')).toHaveTextContent(expected)
+    expect(await getByTestId('name-input')).toHaveValue(expected);
+    expect(await getByTestId('name-element')).toHaveTextContent(expected);
   });
 });
