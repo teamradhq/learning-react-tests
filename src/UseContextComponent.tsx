@@ -1,24 +1,29 @@
 import React, { createContext, useContext } from 'react';
 
-export interface StatusContextProps {
+/**
+ * Define a shape for context that
+ * can be given to provider.
+ */
+export interface ContextProps {
   name: string;
   message: string;
 }
 
-export interface StatusContextPropsList {
-  [key: string]: StatusContextProps;
-}
+/**
+ * Create a context with an initial value.
+ */
+export const Context = createContext<ContextProps>({
+    name: 'Ok',
+    message: 'all good',
+} as ContextProps);
 
-
-export const statusList: StatusContextPropsList = {
-  ok: { name: 'Ok', message: 'all good' },
-  error: { name: 'Error', message: 'whoops' },
-};
-
-export const StatusContext = createContext<StatusContextProps>(statusList.ok);
-
+/**
+ * A component that uses that context.
+ *
+ * @return {JSX.Element}
+ */
 export function UseContextComponent(): JSX.Element {
-  const status = useContext(StatusContext);
+  const status = useContext<ContextProps>(Context);
 
   return (
     <div data-testid="render">
@@ -26,3 +31,11 @@ export function UseContextComponent(): JSX.Element {
     </div>
   );
 }
+
+/**
+ * A component whose children can use provided
+ * value for context.
+ *
+ * @return {React.Provider<ContextProps>}
+ */
+export const ContextProvider = Context.Provider;
